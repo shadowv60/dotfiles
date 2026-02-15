@@ -1,0 +1,24 @@
+services:
+  suwayomi_server:
+    image: ghcr.io/suwayomi/suwayomi-server:stable
+    container_name: Suwayomi-Server
+    user: "1000:1000"
+    environment:
+      - TZ=Asia/Kolkata
+      - FLARESOLVERR_ENABLED=true
+      - FLARESOLVERR_URL=http://flaresolverr:8191
+    volumes:
+      - /home/shadow/docker/suwayomi/downloads:/home/suwayomi/.local/share/Tachidesk/downloads
+      - /home/shadow/docker/suwayomi/data:/home/suwayomi/.local/share/Tachidesk
+    ports:
+      - "4568:4567"
+    restart: unless-stopped
+    depends_on:
+      - flaresolverr
+
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    environment:
+      - TZ=Asia/Kolkata
+    restart: unless-stopped

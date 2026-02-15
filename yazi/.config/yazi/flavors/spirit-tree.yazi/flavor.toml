@@ -1,0 +1,189 @@
+# : Manager {{{
+
+[mgr]
+cwd = { fg = "#00d4ff" } # Bioluminescent Cyan
+
+# Find
+find_keyword  = { fg = "#fbbf24", bold = true, italic = true, underline = true } # Lantern Gold
+find_position = { fg = "#38bdf8", bg = "reset", bold = true, italic = true }
+
+# Marker
+marker_copied   = { fg = "#00d4ff", bg = "#00d4ff" }
+marker_cut      = { fg = "#f7768e", bg = "#fbbf24" }
+marker_marked   = { fg = "#38bdf8", bg = "#1e293b" }
+marker_selected = { fg = "#fbbf24", bg = "#fbbf24" }
+
+# Count
+count_copied   = { fg = "#050814", bg = "#00d4ff" }
+count_cut      = { fg = "#050814", bg = "#fbbf24" }
+count_selected = { fg = "#050814", bg = "#38bdf8" }
+
+# Border
+border_symbol = "│"
+border_style  = { fg = "#1e293b" } # Deep Sea Navy
+
+# : }}}
+
+
+# : Tabs {{{
+
+[tabs]
+active   = { fg = "#050814", bg = "#00d4ff", bold = true }
+inactive = { fg = "#94a3b8", bg = "#020617" }
+
+# : }}}
+
+
+# : Mode {{{
+
+[mode]
+normal_main = { fg = "#050814", bg = "#00d4ff", bold = true }
+normal_alt  = { fg = "#00d4ff", bg = "#050814" }
+
+# Select mode
+select_main = { fg = "#050814", bg = "#fbbf24", bold = true }
+select_alt  = { fg = "#fbbf24", bg = "#050814" }
+
+# Unset mode
+unset_main = { fg = "#050814", bg = "#94a3b8", bold = true }
+unset_alt  = { fg = "#94a3b8", bg = "#050814" }
+
+# : }}}
+
+
+# : Status bar {{{
+
+[status]
+overall = { fg = "#94a3b8" }
+sep_left  = { open = "", close = "" }
+sep_right = { open = "", close = "" }
+
+# Progress
+progress_label  = { fg = "#050814", bold = true }
+progress_normal = { fg = "#00d4ff", bg = "#1e293b" }
+progress_error  = { fg = "#f7768e", bg = "#1e293b" }
+
+# Permissions
+perm_sep   = { fg = "#334155" }
+perm_type  = { fg = "#00d4ff" }
+perm_read  = { fg = "#fbbf24" }
+perm_write = { fg = "#f7768e" }
+perm_exec  = { fg = "#38bdf8" }
+
+# : }}}
+
+# : Pick {{{
+
+[pick]
+border = { fg = "#00d4ff" }
+active = { fg = "#fbbf24", bold = true }
+inactive = {}
+
+# : }}}
+
+
+# : Input {{{
+
+[input]
+border   = { fg = "#00d4ff" }
+title    = {}
+value    = {}
+selected = { reversed = true }
+
+# : }}}
+
+
+# : Completion {{{
+
+[cmp]
+border = { fg = "#00d4ff" }
+
+# : }}}
+
+
+# : Tasks {{{
+
+[tasks]
+border  = { fg = "#1e293b" }
+title   = {}
+hovered = { fg = "#00d4ff", underline = true }
+
+# : }}}
+
+
+# : Which {{{
+
+[which]
+mask            = { bg = "#020617" }
+cand            = { fg = "#00d4ff" }
+rest            = { fg = "#94a3b8" }
+desc            = { fg = "#fbbf24" }
+separator       = "  "
+separator_style = { fg = "#334155" }
+
+# : }}}
+
+
+# : Help {{{
+
+[help]
+on      = { fg = "#00d4ff" }
+run     = { fg = "#fbbf24" }
+hovered = { reversed = true, bold = true }
+footer  = { fg = "#050814", bg = "#94a3b8" }
+
+# : }}}
+
+
+# : Spotter {{{
+
+[spot]
+border   = { fg = "#00d4ff" }
+title    = { fg = "#00d4ff" }
+tbl_col  = { fg = "#fbbf24" }
+tbl_cell = { fg = "#94a3b8", bg = "#020617" }
+
+# : }}}
+
+
+# : Notify {{{
+
+[notify]
+title_info  = { fg = "#00d4ff" }
+title_warn  = { fg = "#fbbf24" }
+title_error = { fg = "#f7768e" }
+
+# : }}}
+
+
+# : File-specific styles {{{
+
+[filetype]
+
+rules = [
+    # Images (Lantern Glow)
+    { mime = "image/*", fg = "#fbbf24" },
+
+    # Media (Bioluminescent Glow)
+    { mime = "video/*", fg = "#00d4ff" },
+    { mime = "audio/*", fg = "#00d4ff" },
+
+    # Archives (Mist Slate)
+    { mime = "application/zip",             fg = "#94a3b8" },
+    { mime = "application/x-tar",            fg = "#94a3b8" },
+    { mime = "application/x-7z-compressed", fg = "#94a3b8" },
+
+    # Documents
+    { mime = "application/pdf",        fg = "#38bdf8" },
+    { mime = "application/vnd.*",      fg = "#38bdf8" },
+
+    # Special files
+    { mime = "*", is = "orphan", fg = "#f7768e", bg = "#1e293b" },
+    { mime = "application/*exec*", fg = "#00d4ff", bold = true },
+
+    # Fallback
+    { url = "*", fg = "#94a3b8" },
+    { url = "*/", fg = "#38bdf8", bold = true }, # Directories are Deep Sky Blue
+]
+
+# : }}}
