@@ -4,3 +4,4 @@ if status is-interactive
     # This runs fastfetch every time a new shell starts
     fastfetch
 end
+
