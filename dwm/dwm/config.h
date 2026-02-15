@@ -77,7 +77,6 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_x,      spawn,          SHCMD("/home/shadow/docker/suwayomi/start-suwayomi-latest.sh") },
 	{ MODKEY|ShiftMask,             XK_x,      spawn,          SHCMD("/home/shadow/docker/suwayomi/stop-suwayomi.sh") },
-	{ MODKEY,                       XK_n,      spawn,          {.v = "~/scripts/dmenu-network.sh"} },
 	{ MODKEY,                       XK_b,      spawn,          {.v = bar } },
 	{ MODKEY,                       XK_f,      spawn,          {.v = yazicmd } },
         { MODKEY,                       XK_F5,     spawn,          SHCMD("xrandr --output HDMI-2 --gamma 1:0.92:0.85") },
