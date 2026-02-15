@@ -17,10 +17,11 @@
 *.out
 *.exe
 
-dwm/dwm
-dmenu/dmenu
-st/st
-dwmblocks/dwmblocks
+# Suckless compiled binaries
+dwm/dwm/dwm
+dmenu/dmenu/dmenu
+st/st/st
+dwmblocks/dwmblocks/dwmblocks
 
 # build directories
 build/
