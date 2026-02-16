@@ -14,14 +14,14 @@ docker compose -f "$COMPOSE_FILE" up -d
 
 echo "⏳ Waiting for Suwayomi to be ready..."
 until curl -s -o /dev/null -w "%{http_code}" "$URL" | grep -q 200; do
-    sleep 1
+  sleep 1
 done
 
 echo "✅ Suwayomi is up!"
 
 # Open browser only if NOT running over SSH
 if [ -z "$SSH_CONNECTION" ]; then
-	firefox "$URL" >/dev/null 2>&1 &
+  librewolf "$URL" >/dev/null 2>&1 &
 fi
 
 echo "🧹 Cleaning unused Docker images..."

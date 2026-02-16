@@ -67,7 +67,7 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_accent, "-sf", col_gray4, "-l", "10", NULL };
 static const char *termcmd[]  = { "kitty", NULL };
-static const char *bar[] = { "firefox", NULL };
+static const char *bar[] = { "librewolf", NULL };
 static const char *yazicmd[]  = { "kitty", "yazi", NULL };
 static const char *dolphincmd[]  = { "dolphin", NULL };
 
@@ -78,9 +78,10 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_x,      spawn,          SHCMD("/home/shadow/docker/suwayomi/start-suwayomi-latest.sh") },
 	{ MODKEY|ShiftMask,             XK_x,      spawn,          SHCMD("/home/shadow/docker/suwayomi/stop-suwayomi.sh") },
 	{ MODKEY,                       XK_b,      spawn,          {.v = bar } },
+  { MODKEY,                       XK_c,      spawn,          SHCMD("kitty -e cava") },
 	{ MODKEY,                       XK_f,      spawn,          {.v = yazicmd } },
-        { MODKEY,                       XK_F5,     spawn,          SHCMD("xrandr --output HDMI-2 --gamma 1:0.92:0.85") },
-        { MODKEY|ShiftMask,             XK_F5,     spawn,          SHCMD("xrandr --output HDMI-2 --gamma 1:1:1") },
+  { MODKEY,                       XK_F5,     spawn,          SHCMD("xrandr --output HDMI-2 --gamma 1:0.92:0.85") },
+  { MODKEY|ShiftMask,             XK_F5,     spawn,          SHCMD("xrandr --output HDMI-2 --gamma 1:1:1") },
 	{ MODKEY|ShiftMask,             XK_f,      spawn,          {.v = dolphincmd } },
 	{ MODKEY,                       XK_s,      spawn,          SHCMD("scrot ~/Pictures/%Y-%m-%d-%H%M%S_screenshot.png") },
 	{ MODKEY,                       XK_v,      togglebar,      {0} },
@@ -90,7 +91,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_p,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-        { MODKEY,                       XK_z,      zoom,           {0} },
+  { MODKEY,                       XK_z,      zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY,                       XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
@@ -104,9 +105,9 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
-        { 0, XF86XK_AudioRaiseVolume, spawn,SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ && pkill -RTMIN+10 dwmblocks") },
-        { 0, XF86XK_AudioLowerVolume, spawn,SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && pkill -RTMIN+10 dwmblocks") },
-        { 0, XF86XK_AudioMute, spawn, SHCMD("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && pkill -RTMIN+10 dwmblocks") },
+  { 0, XF86XK_AudioRaiseVolume, spawn,SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ && pkill -RTMIN+10 dwmblocks") },
+  { 0, XF86XK_AudioLowerVolume, spawn,SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && pkill -RTMIN+10 dwmblocks") },
+  { 0, XF86XK_AudioMute, spawn, SHCMD("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && pkill -RTMIN+10 dwmblocks") },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)

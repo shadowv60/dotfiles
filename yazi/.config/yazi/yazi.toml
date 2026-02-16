@@ -1,0 +1,31 @@
+[mgr]
+show_hidden = true
+
+[opener]
+# block = true is required for nvim to keep the terminal focused
+edit = [
+    { run = 'nvim %s', block = true, desc = "Neovim", for = "unix" }
+]
+
+librewolf = [
+    { run = 'librewolf %s', orphan = true, desc = "Librewolf", for = "unix" }
+]
+
+[open]
+prepend_rules = [
+    # 1. Directories stay in Yazi
+    { mime = "inode/directory", use = "open" },
+
+    # 2. Text/Code files go to Neovim
+    { mime = "text/*", use = "edit" },
+    { mime = "application/javascript", use = "edit" },
+    { mime = "application/json", use = "edit" },
+    { url = "*.{md,txt,conf,toml,yaml,yml,lua,fish,py,rs}", use = "edit" },
+
+    # 3. Media goes to your system player (mpv/vlc)
+    { mime = "audio/*", use = "play" },
+    { mime = "video/*", use = "play" },
+
+    # 4. Everything else to Librewolf
+    { mime = "*", use = "librewolf" }
+]
