@@ -1,0 +1,187 @@
+#![enable(implicit_some)]
+#![enable(unwrap_newtypes)]
+#![enable(unwrap_variant_newtypes)]
+
+(
+    default_album_art_path: None,
+    format_tag_separator: " | ",
+    browser_column_widths: [20, 38, 42],
+
+    background_color: "#070e26",          // Deep Void
+    text_color: "#8fae8d",                // Bark Mist
+    header_background_color: "#0b183f",   // Twilight Navy
+    modal_background_color: "#0b183f",
+    modal_backdrop: false,
+
+    preview_label_style: (fg: "#8fae8d"),
+    preview_metadata_group_style: (fg: "#8fae8d", modifiers: "Bold"),
+
+    highlighted_item_style: (fg: "#2c99a8", modifiers: "Bold"), // Bioluminescent Cyan
+    current_item_style: (fg: "#070e26", bg: "#2c99a8", modifiers: "Bold"),
+
+    borders_style: (fg: "#0b2c63"),       // Deep Sea Blue
+    highlight_border_style: (fg: "#2c99a8"),
+
+    symbols: (
+        song: "S",
+        dir: "D",
+        playlist: "P",
+        marker: "M",
+        ellipsis: "...",
+        song_style: None,
+        dir_style: None,
+        playlist_style: None,
+    ),
+
+    level_styles: (
+        info:  (fg: "#0d568e", bg: "#070e26"),  // Oceanic Blue
+        warn:  (fg: "#8fae8d", bg: "#070e26"),
+        error: (fg: "#646351", bg: "#070e26"),  // Ancient Bark
+        debug: (fg: "#2c99a8", bg: "#070e26"),
+        trace: (fg: "#32353c", bg: "#070e26"),  // Midnight Slate
+    ),
+
+    progress_bar: (
+        symbols: ["█", "█", "█", " ", "█"],
+        track_style: (),
+        elapsed_style: (fg: "#2c99a8"),
+        thumb_style: (fg: "#2c99a8"),
+        use_track_when_empty: true,
+    ),
+
+    scrollbar: (
+        symbols: ["│", "█", "▲", "▼"],
+        track_style: (),
+        ends_style: (),
+        thumb_style: (fg: "#2c99a8"),
+    ),
+
+    tab_bar: (
+        active_style: (fg: "#070e26", bg: "#2c99a8", modifiers: "Bold"),
+        inactive_style: (fg: "#8fae8d"),
+    ),
+
+    lyrics: (
+        timestamp: false
+    ),
+
+    // ---- REQUIRED DEFAULT COMPONENTS ----
+
+    components: {
+
+        "state": Pane(Property(
+            content: [
+                (kind: Text("["), style: (fg: "#8fae8d", modifiers: "Bold")),
+                (kind: Property(Status(StateV2())) , style: (fg: "#8fae8d", modifiers: "Bold")),
+                (kind: Text("]"), style: (fg: "#8fae8d", modifiers: "Bold")),
+            ],
+            align: Left,
+        )),
+
+        "title": Pane(Property(
+            content: [
+                (kind: Property(Song(Title)),
+                    style: (fg: "#2c99a8", modifiers: "Bold"),
+                    default: (kind: Text("No Song"),
+                        style: (fg: "#2c99a8", modifiers: "Bold"))),
+            ],
+            align: Center,
+            scroll_speed: 1,
+        )),
+
+        "volume": Pane(Property(
+            content: [
+                (kind: Text(" Vol: "), style: (fg: "#8fae8d")),
+                (kind: Property(Status(Volume)),
+                    style: (fg: "#0d568e", modifiers: "Bold")),
+                (kind: Text("%"), style: (fg: "#8fae8d")),
+            ],
+            align: Right,
+        )),
+
+        "elapsed_and_bitrate": Pane(Property(
+            content: [
+                (kind: Property(Status(Elapsed))),
+                (kind: Text(" / ")),
+                (kind: Property(Status(Duration))),
+                (kind: Group([
+                    (kind: Text(" (")),
+                    (kind: Property(Status(Bitrate))),
+                    (kind: Text(" kbps)")),
+                ])),
+            ],
+            align: Left,
+        )),
+
+        "artist_and_album": Pane(Property(
+            content: [
+                (kind: Property(Song(Artist)),
+                    style: (fg: "#2c99a8", modifiers: "Bold"),
+                    default: (kind: Text("Unknown"),
+                        style: (fg: "#2c99a8", modifiers: "Bold"))),
+                (kind: Text(" - ")),
+                (kind: Property(Song(Album)),
+                    style: (fg: "#8fae8d"),
+                    default: (kind: Text("Unknown Album"),
+                        style: (fg: "#8fae8d"))),
+            ],
+            align: Center,
+            scroll_speed: 1,
+        )),
+
+        "input_mode": Pane(Property(
+            content: [
+                (kind: Transform(Replace(
+                    content: (kind: Property(Status(InputMode()))),
+                    replacements: [
+                        (
+                            match: "Normal",
+                            replace: (kind: Text(" NORMAL "),
+                                style: (fg: "#070e26", bg: "#2c99a8", modifiers: "Bold"))
+                        ),
+                        (
+                            match: "Insert",
+                            replace: (kind: Text(" INSERT "),
+                                style: (fg: "#070e26", bg: "#0d568e", modifiers: "Bold"))
+                        ),
+                    ]
+                )))
+            ],
+            align: Center,
+        )),
+
+        "header_left": Split(
+            direction: Vertical,
+            panes: [
+                (size: "1", pane: Component("state")),
+                (size: "1", pane: Component("elapsed_and_bitrate")),
+            ]
+        ),
+
+        "header_center": Split(
+            direction: Vertical,
+            panes: [
+                (size: "1", pane: Component("title")),
+                (size: "1", pane: Component("artist_and_album")),
+            ]
+        ),
+
+        "header_right": Split(
+            direction: Vertical,
+            panes: [
+                (size: "1", pane: Component("volume")),
+                (size: "1", pane: Component("input_mode")),
+            ]
+        ),
+
+        "progress_bar": Split(
+            direction: Horizontal,
+            panes: [
+                (size: "1", pane: Pane(Empty())),
+                (size: "100%", pane: Pane(ProgressBar)),
+                (size: "1", pane: Pane(Empty())),
+            ]
+        ),
+    },
+)
+
