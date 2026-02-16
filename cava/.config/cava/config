@@ -5,7 +5,7 @@
 [general]
 framerate = 60
 autosens = 1
-sensitivity = 60
+sensitivity = 100
 bars = 0
 bar_width = 1
 bar_spacing = 1

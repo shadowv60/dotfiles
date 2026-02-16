@@ -7,7 +7,7 @@
     format_tag_separator: " | ",
     browser_column_widths: [20, 38, 42],
 
-    background_color: "#070e26",          // Deep Void
+    background_color: None,          // Deep Void
     text_color: "#8fae8d",                // Bark Mist
     header_background_color: "#0b183f",   // Twilight Navy
     modal_background_color: "#0b183f",
@@ -19,7 +19,7 @@
     highlighted_item_style: (fg: "#2c99a8", modifiers: "Bold"), // Bioluminescent Cyan
     current_item_style: (fg: "#070e26", bg: "#2c99a8", modifiers: "Bold"),
 
-    borders_style: (fg: "#0b2c63"),       // Deep Sea Blue
+    borders_style: (fg: "#2c99a8", modifiers: "Bold"),
     highlight_border_style: (fg: "#2c99a8"),
 
     symbols: (
@@ -48,6 +48,28 @@
         thumb_style: (fg: "#2c99a8"),
         use_track_when_empty: true,
     ),
+
+    cava: (
+    bar_symbols: ['▁','▂','▃','▄','▅','▆','▇','█'],
+    bar_width: 1,
+    bar_spacing: 1,
+    bg_color: None,
+
+    bar_color: Gradient({
+        0:   "#001219",
+        10:  "#005f73",
+        20:  "#0a9396",
+        30:  "#94d2bd",
+        40:  "#e9d8a6",
+        50:  "#ee9b00",
+        60:  "#ca6702",
+        70:  "#bb3e03",
+        80:  "#ae2012",
+        90:  "#003566",
+        100: "#ffc300",
+    }),
+),
+
 
     scrollbar: (
         symbols: ["│", "█", "▲", "▼"],
