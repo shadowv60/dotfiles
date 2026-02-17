@@ -1,0 +1,81 @@
+* {
+    /* Font */
+    font:               "JetBrainsMono Nerd Font 12";
+
+    /* Spirit Tree Palette - Increased Transparency */
+    main-bg:            #070e26b3; /* 70% Opacity */
+    main-fg:            #f8fafcff;
+    main-br:            #2c99a8ff;
+    main-ex:            #8fae8dff;
+    select-bg:          #0d568e80; /* 50% Opacity selection for glass look */
+    select-fg:          #f8fafcff;
+    separatorcolor:     transparent;
+    border-color:       transparent;
+}
+
+window {
+    background-color:   @main-bg;
+    text-color:         @main-fg;
+    border:             2px;
+    border-color:       @main-br;
+    border-radius:      12px;
+    width:              600px;
+    padding:            20px;
+}
+
+mainbox {
+    background-color:   transparent;
+    children:           [ "inputbar", "listview" ];
+}
+
+inputbar {
+    background-color:   transparent;
+    children:           [ "prompt", "entry" ];
+    padding:            10px;
+}
+
+prompt {
+    background-color:   @main-br;
+    text-color:         @main-bg;
+    padding:            8px 12px;
+    border-radius:      6px;
+}
+
+entry {
+    background-color:   transparent;
+    text-color:         @main-fg;
+    placeholder:        "Search Spirit...";
+    padding:            8px;
+}
+
+listview {
+    background-color:   transparent;
+    columns:            1;
+    lines:              8;
+    spacing:            5px;
+    fixed-height:       false;
+}
+
+element {
+    background-color:   transparent;
+    text-color:         @main-fg;
+    padding:            8px;
+    border-radius:      6px;
+}
+
+element selected {
+    background-color:   @select-bg;
+    text-color:         @select-fg;
+}
+
+element-text {
+    background-color:   transparent;
+    text-color:         inherit;
+    vertical-align:     0.5;
+}
+
+element-icon {
+    size:               24px;
+    background-color:   transparent;
+    padding:            0 10px 0 0;
+}
