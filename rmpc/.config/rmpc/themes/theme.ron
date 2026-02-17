@@ -42,7 +42,7 @@
     ),
 
     progress_bar: (
-        symbols: ["█", "█", "█", " ", "█"],
+        symbols: ["", "█", "", "", "" ],
         track_style: (),
         elapsed_style: (fg: "#2c99a8"),
         thumb_style: (fg: "#2c99a8"),
