@@ -23,16 +23,23 @@ static const char *colors[][3]      = {
     [SchemeSel]  = { col_gray3,  col_gray1,  col_accent },
 };
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "", "", "3", "󰎄", "5", "6", "7", "8", "9" };
 
 static const Rule rules[] = {
-	/* xprop(1):
-	 *	WM_CLASS(STRING) = instance, class
-	 *	WM_NAME(STRING) = title
-	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+    /* class      instance     title    tags mask  isfloating  monitor */
+    { "helium-browser", NULL,   NULL,    1 << 0,    0,          -1 },
+    
+    /* 1. Specific instances first */
+    { "kitty",    "rmpc_term", NULL,    1 << 3,    0,          -1 }, // Tag 4 only
+    { "kitty",    "cava_term", NULL,    1 << 3,    0,          -1 }, // Tag 4 only
+    
+    /* 2. Generic class last */
+    /* By leaving instance as NULL here, it acts as a catch-all for any kitty 
+       window that didn't match the specific names above. */
+    { "kitty",    "kitty",     NULL,    1 << 1,    0,          -1 }, // Tag 2 only
+    
+    { "Gimp",     NULL,        NULL,    0,         1,          -1 },
+    { "Firefox",  NULL,        NULL,    1 << 8,    0,          -1 },
 };
 
 /* layout(s) */
@@ -59,7 +66,7 @@ static const Layout layouts[] = {
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
-#define STATUSBAR "dwmblocks"
+#define STATUSBAR "dwmblocks" 
 #include <X11/XF86keysym.h>
 #define CLICKABLE_BLOCKS 1
 
@@ -79,9 +86,10 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_x,      spawn,          SHCMD("/home/shadow/docker/suwayomi/start-suwayomi-latest.sh") },
 	{ MODKEY|ShiftMask,             XK_x,      spawn,          SHCMD("/home/shadow/docker/suwayomi/stop-suwayomi.sh") },
 	{ MODKEY,                       XK_b,      spawn,          {.v = bar } },
-  { MODKEY,                       XK_m,      spawn,          SHCMD("kitty -e rmpc") },
-  { MODKEY,                       XK_c,      spawn,          SHCMD("kitty -e cava") },
-	{ MODKEY,                       XK_f,      spawn,          {.v = yazicmd } },
+  /* Find these lines in your keys[] array and update them: */
+  { MODKEY,                       XK_m,      spawn,          SHCMD("kitty --name rmpc_term -e rmpc") },
+  { MODKEY,                       XK_c,      spawn,          SHCMD("kitty --name cava_term -e cava") },
+  { MODKEY,                       XK_f,      spawn,          {.v = yazicmd } },
   { MODKEY,                       XK_F5,     spawn,          SHCMD("redshift -O 3500") },
   { MODKEY|ShiftMask,             XK_F5,     spawn,          SHCMD("redshift -x") },
   { MODKEY|ShiftMask,             XK_f,      spawn,          {.v = dolphincmd } },
@@ -143,7 +151,7 @@ static const Button buttons[] = {
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
 	{ ClkTagBar,            0,              Button1,        view,           {0} },
 	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
-	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
+  { ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
 
