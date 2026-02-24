@@ -1,0 +1,78 @@
+/**
+ * Compact Dark Foil Theme
+ */
+
+* {
+    bg0:     #131313;
+    bg1:     #343434;
+    border:  #5D5D5E;
+    fg0:     #C9C9C9;
+    fg1:     #8C8C8D;
+    
+    background-color: transparent;
+    text-color:       @fg0;
+    margin:           0;
+    padding:          0;
+    spacing:          0;
+}
+
+window {
+    background-color: @bg0;
+    border:           2px;
+    border-color:     @border;
+    width:            500px; /* Slimmer width */
+    border-radius:    6px;
+}
+
+mainbox {
+    children: [ inputbar, listview ];
+}
+
+inputbar {
+    background-color: @bg1;
+    children:         [ prompt, entry ];
+    padding:          8px 12px; /* Tighter padding */
+}
+
+prompt {
+    text-color: @fg1;
+    padding:    0 8px 0 0;
+}
+
+entry {
+    placeholder:       "Search...";
+    placeholder-color: @fg1;
+}
+
+listview {
+    lines:        8;      /* Forces it to stay short */
+    fixed-height: true;   /* Keeps the window size consistent */
+    border:       1px 0 0;
+    border-color: @border;
+    spacing:      0px;
+    scrollbar:    false;
+    padding:      4px 0;
+}
+
+element {
+    padding: 6px 12px; /* Slimmer rows */
+}
+
+element selected.normal {
+    background-color: @bg1;
+    text-color:       @fg0;
+    /* Using that Pebble Gray for a subtle left highlight */
+    border:           0 0 0 3px;
+    border-color:     @fg1;
+}
+
+element-text {
+    background-color: inherit;
+    text-color:       inherit;
+    vertical-align:   0.5;
+}
+
+element-icon {
+    size:            20px;
+    padding:         0 8px 0 0;
+}

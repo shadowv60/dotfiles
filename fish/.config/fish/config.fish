@@ -6,8 +6,10 @@ if status is-interactive
     set -g fish_greeting
 
     # Init Starship prompt
-    starship init fish | source
+    #starship init fish | source
 
     # Welcome screen
     fastfetch
 end
+
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv fish)"

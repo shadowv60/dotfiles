@@ -167,4 +167,4 @@ configuration {
       sorting-method:    "name";
   }
 }
-@theme "spirit-tree"
+@theme "mono"

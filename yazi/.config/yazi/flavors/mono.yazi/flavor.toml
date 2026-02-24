@@ -1,0 +1,113 @@
+# : Manager {{{
+
+[mgr]
+cwd = { fg = "#C9C9C9" } # Silver / Off-White
+
+# Find
+find_keyword  = { fg = "#C9C9C9", bold = true, italic = true, underline = true } 
+find_position = { fg = "#8C8C8D", bg = "reset", bold = true, italic = true }
+
+# Marker
+marker_copied   = { fg = "#5D5D5E", bg = "#5D5D5E" }
+marker_cut      = { fg = "#343434", bg = "#8C8C8D" }
+marker_marked   = { fg = "#8C8C8D", bg = "#131313" }
+marker_selected = { fg = "#8C8C8D", bg = "#8C8C8D" }
+
+# Count
+count_copied   = { fg = "#131313", bg = "#5D5D5E" }
+count_cut      = { fg = "#131313", bg = "#8C8C8D" }
+count_selected = { fg = "#131313", bg = "#8C8C8D" }
+
+# Border
+border_symbol = "│"
+border_style  = { fg = "#343434" } # Dark Slate Gray
+
+# : }}}
+
+# : Tabs & Mode {{{
+
+[tabs]
+active   = { fg = "#131313", bg = "#C9C9C9", bold = true }
+inactive = { fg = "#5D5D5E", bg = "#131313" }
+
+[mode]
+normal_main = { fg = "#131313", bg = "#C9C9C9", bold = true }
+normal_alt  = { fg = "#C9C9C9", bg = "#131313" }
+select_main = { fg = "#131313", bg = "#8C8C8D", bold = true }
+select_alt  = { fg = "#8C8C8D", bg = "#131313" }
+unset_main  = { fg = "#131313", bg = "#5D5D5E", bold = true }
+unset_alt   = { fg = "#5D5D5E", bg = "#131313" }
+
+# : }}}
+
+# : Status bar {{{
+
+[status]
+overall = { fg = "#8C8C8D" }
+sep_left  = { open = "", close = "" }
+sep_right = { open = "", close = "" }
+progress_label  = { fg = "#131313", bold = true }
+progress_normal = { fg = "#C9C9C9", bg = "#343434" }
+progress_error  = { fg = "#5D5D5E", bg = "#131313" }
+perm_sep   = { fg = "#343434" }
+perm_type  = { fg = "#C9C9C9" }
+perm_read  = { fg = "#8C8C8D" }
+perm_write = { fg = "#5D5D5E" }
+perm_exec  = { fg = "#343434" }
+
+# : }}}
+
+# : Icons {{{
+# Note: In Yazi, 'globs' uses 'url' while specific files use 'name'.
+# : Icons {{{
+
+# : Icons {{{
+
+[icon]
+# For icons, you must specify 'text' (the glyph) along with 'name' or 'url'.
+prepend_rules = [
+	{ name = ".config/",   text = "", fg = "#8C8C8D" },
+	{ name = "Downloads/", text = "󰉍", fg = "#8C8C8D" },
+	{ name = "Pictures/",  text = "󰉏", fg = "#8C8C8D" },
+	{ name = ".gitconfig", text = "󰊢", fg = "#5D5D5E" },
+	{ name = "*.sh",      text = "󱆃", fg = "#C9C9C9" },
+]
+
+prepend_globs = [
+	{ url = "*/", text = "", fg = "#8C8C8D" },
+]
+
+# : }}}
+
+# : File-specific styles {{{
+[filetype]
+rules = [
+    # 1. Directories (Kills the blue text)
+    { url = "*/", fg = "#8C8C8D", bold = true }, 
+
+    # 2. Executables (Kills the green text)
+    { mime = "application/*exec*", fg = "#C9C9C9", bold = true },
+
+    # 3. Media
+    { mime = "image/*", fg = "#C9C9C9" },
+    { mime = "video/*", fg = "#5D5D5E" },
+    { mime = "audio/*", fg = "#5D5D5E" },
+
+    # 4. Archives
+    { mime = "application/zip",             fg = "#343434" },
+    { mime = "application/x-tar",            fg = "#343434" },
+    { mime = "application/x-7z-compressed", fg = "#343434" },
+
+    # 5. Documents & Configuration
+    { mime = "text/*", fg = "#8C8C8D" },
+    { mime = "application/json", fg = "#8C8C8D" },
+    { mime = "application/pdf",  fg = "#5D5D5E" },
+
+    # 6. Special (Links were blue - forcing silver now)
+    { mime = "*", is = "orphan", fg = "#131313", bg = "#5D5D5E" },
+    { mime = "*", is = "link",   fg = "#C9C9C9", italic = true },
+
+    # 7. Global Fallback
+    { url = "*", fg = "#8C8C8D" },
+]
+# : }}}
