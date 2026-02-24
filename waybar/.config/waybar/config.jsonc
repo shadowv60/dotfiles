@@ -1,0 +1,74 @@
+{
+  "modules-left": [
+    "ext/workspaces",
+    "dwl/window#layout",
+    "dwl/window#title",
+    "custom/sep",
+  ],
+  "modules-right": [
+        "custom/music",
+        "custom/sep",
+        "custom/volume",
+        "custom/sep",
+        "custom/wifi",
+        "custom/sep",
+        "custom/cpu",
+        "custom/sep",
+        "custom/ram",
+        "custom/sep",
+        "clock"
+    ],
+    
+    "custom/cpu": {
+        "exec": "~/.local/bin/status/cpu.sh",
+        "interval": 2,
+        "format": "{}" 
+    },
+
+    "custom/ram": {
+        "exec": "~/.local/bin/status/ram.sh",
+        "interval": 2,
+        "format": "{}" 
+    },
+
+    "custom/wifi": {
+        "exec": "~/.local/bin/status/wifi.sh",
+        "interval": 5,
+        "format": "{}" 
+    },
+
+    "custom/volume": {
+        "exec": "~/.local/bin/status/volume.sh",
+        "interval": "once",
+        "signal": 1,
+        "format": "{}" 
+    },
+
+    "custom/music": {
+        "exec": "~/.local/bin/status/music.sh",
+        "interval": 2,
+        "format": "{}" 
+    },
+
+    /* --- Interface Modules --- */
+
+    "ext/workspaces": {
+        "format": "{id}",
+        "on-click": "activate"
+    },
+
+    "dwl/window#layout": {
+        "format": "[{layout}]"
+    },
+    "dwl/window#title": {
+    "format": "{title}"
+  },
+  "clock": {
+        "format": "{:%a, %b %d - %I:%M %p}"
+    },
+
+    "custom/sep": {
+        "format": "|",
+        "interval": 0
+    }
+}

@@ -1,0 +1,95 @@
+/* Shade Theme - Consolidated */
+@define-color bg       #131313; 
+@define-color surface  #343434; 
+@define-color steel    #5D5D5E; 
+@define-color silver   #C9C9C9; 
+
+* {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 14px; /* Matches the dense look of your screenshot */
+    font-weight: bold;
+    border: none;    /* Globally disables all borders */
+}
+
+window#waybar {
+    background-color: @bg;
+    color: @silver;
+}
+
+/* --- Workspaces (Tight / No Gaps) --- */
+
+#workspaces {
+    margin: 0;
+    padding: 0;
+}
+
+#workspaces button {
+    margin: 0;              /* REMOVE GTK GAP */
+    padding: 0 6px;         /* control spacing manually */
+    min-width: 0;           /* prevent forced width */
+    border-radius: 0;       /* remove GTK rounding */
+    background: transparent;
+    color: @steel;
+}
+
+#workspaces button.active {
+    margin: 0;
+    padding: 0 6px;
+    background: transparent;
+    color: @silver;
+}
+
+#workspaces button.hidden {
+    margin: 0;
+    padding: 0 6px;
+    color: @silver;
+}
+
+#workspaces button.urgent {
+    margin: 0;
+    padding: 0 6px;
+}
+/* --- Window & Layout Spacing --- */
+#custom-sep {
+    color: @steel;
+    padding: 0 2px; /* Pulls the separator tight to neighbors */
+}
+
+/* Fix: Move [T] closer to the separator */
+/* Remove gap between workspaces and layout */
+
+#dwl-window-layout {
+    margin: 0;
+    padding: 0;
+}
+
+#dwl-window-title {
+    margin: 0;
+    padding-left: 0;
+}
+#window {
+    font-weight: normal;
+    color: @silver;
+    padding: 0 5px;
+}
+
+/* --- Right Side Modules --- */
+#custom-cpu, 
+#custom-ram, 
+#custom-wifi, 
+#custom-volume, 
+#custom-music, 
+#clock {
+    padding: 0 10px;
+    color: @silver;
+}
+
+/* Force clock to be the exact same silver */
+#clock {
+    color: @silver;
+}
+
+button:hover {
+    background: @surface;
+    box-shadow: none;
+}
