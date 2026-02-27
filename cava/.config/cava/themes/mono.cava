@@ -1,0 +1,19 @@
+gradient = 1
+# Reduced to 8 for a more distinct step-up effect
+gradient_count = 8
+
+# Dark Slate Gray (Now the base, much more visible)
+gradient_color_1 = '#343434'
+gradient_color_2 = '#343434'
+
+# Steel Gray
+gradient_color_3 = '#5D5D5E'
+gradient_color_4 = '#5D5D5E'
+
+# Pebble Gray
+gradient_color_5 = '#8C8C8D'
+gradient_color_6 = '#8C8C8D'
+
+# Silver / Off-White (The high peaks)
+gradient_color_7 = '#C9C9C9'
+gradient_color_8 = '#C9C9C9'

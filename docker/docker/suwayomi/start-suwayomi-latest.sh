@@ -21,7 +21,7 @@ echo "✅ Suwayomi is up!"
 
 # Open browser only if NOT running over SSH
 if [ -z "$SSH_CONNECTION" ]; then
-  helium-browser "$URL" >/dev/null 2>&1 &
+    firefox "$URL" >/dev/null 2>&1 &
 fi
 
 echo "🧹 Cleaning unused Docker images..."

@@ -4,29 +4,27 @@
 /* appearance */
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
-static const unsigned int gappih    = 3;        /* horiz inner gap between windows */
-static const unsigned int gappiv    = 3;        /* vert inner gap between windows */
-static const unsigned int gappoh    = 3;        /* horiz outer gap between windows and screen edge */
-static const unsigned int gappov    = 3;        /* vert outer gap between windows and screen edge */
+static const unsigned int gappih    = 5;        /* horiz inner gap between windows */
+static const unsigned int gappiv    = 5;        /* vert inner gap between windows */
+static const unsigned int gappoh    = 5;        /* horiz outer gap between windows and screen edge */
+static const unsigned int gappov    = 5;        /* vert outer gap between windows and screen edge */
 static const int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "JetBrainsMono Nerd Font Mono:size=10" };
 static const char dmenufont[]       = "monospace:size=10";
 
-/* Theme: Grayscale Shadow (Clean Bar Edit) */
-static const char col_bg[]          = "#131313"; // Deep Charcoal
-static const char col_border_norm[] = "#343434"; // Dark Slate Gray
-static const char col_fg_norm[]     = "#C9C9C9"; // Pebble Gray
-static const char col_fg_sel[]      = "#C9C9C9"; // Silver / Off-White (Active Text)
-static const char col_border_sel[]  = "#C9C9C9"; // Silver / Off-White (Active Window Border)
-static const char col_fg_normm[]    = "#8C8C8D";
+/* Theme: Eldritch Newsprint (High Contrast Edit) */
+static const char col_bg[]          = "#1e2224"; // Deeper Abyss for better contrast
+static const char col_border_norm[] = "#49504f"; // Steel Shadow
+static const char col_fg_norm[]     = "#bbb49d"; // Vintage Bone (Now standard text)
+static const char col_fg_sel[]      = "#ece6d9"; // Bleached Bone (Bright active text)
+static const char col_border_sel[]  = "#bbb49d"; // Vintage Bone (Active Border)
 
 static const char *colors[][3]      = {
-    /* fg           bg          border   */
-    [SchemeNorm] = { col_fg_normm, col_bg,     col_border_norm },
-    /* Setting bg to col_bg here removes the 'box' effect in the bar */
-    [SchemeSel]  = { col_fg_sel,  col_bg,     col_border_sel  },
+    /* fg           bg           border   */
+    [SchemeNorm] = { col_fg_norm, col_bg,      col_border_norm },
+    [SchemeSel]  = { col_fg_sel,  col_bg,      col_border_sel  },
 };
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
@@ -36,9 +34,9 @@ static const Rule rules[] = {
      * WM_CLASS(STRING) = instance, class
      * WM_NAME(STRING) = title
      */
-    /* class      instance    title       tags mask     isfloating   monitor */
-    { "Gimp",     NULL,        NULL,        0,            1,           -1 },
-    { "Firefox",  NULL,        NULL,        1 << 8,       0,           -1 },
+    /* class      instance    title         tags mask     isfloating   monitor */
+    { "Gimp",     NULL,        NULL,         0,            1,           -1 },
+    { "Firefox",  NULL,        NULL,         1 << 8,       0,           -1 },
 };
 
 /* layout(s) */
@@ -56,7 +54,6 @@ static const Layout layouts[] = {
 };
 
 /* Volume & Audio (Pipewire) */
-/* We add 'pkill -RTMIN+6 dwmblocks' to refresh the bar immediately */
 #define VOL_UPDATE "pkill -RTMIN+6 dwmblocks"
 
 static const char *volup[]   = { "/bin/sh", "-c", "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ && " VOL_UPDATE, NULL };
@@ -65,6 +62,7 @@ static const char *volmute[] = { "/bin/sh", "-c", "wpctl set-mute @DEFAULT_AUDIO
 static const char *playpause[] = { "playerctl", "play-pause", NULL };
 
 /* Apps */
+static const char *roficmd[]     = { "rofi", "-show", "drun", NULL };
 static const char *browser[]     = { "firefox", NULL };
 static const char *zed[]         = { "zeditor", NULL };
 static const char *dolphin[]     = { "dolphin", NULL };
@@ -95,7 +93,8 @@ static const char *termcmd[]  = { "kitty", NULL };
 
 static const Key keys[] = {
     /* modifier                     key        function        argument */
-    { MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
+    { MODKEY,                       XK_a,      spawn,          {.v = dmenucmd } },
+    { MODKEY,                       XK_d,      spawn,          {.v = roficmd } },    
     { MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
     { MODKEY,                       XK_r,      togglebar,      {0} },
     { MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
