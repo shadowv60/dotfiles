@@ -307,14 +307,15 @@ oxwm.key.bind({}, "XF86AudioRaiseVolume", oxwm.spawn({ "sh", "-c", "wpctl set-vo
 oxwm.key.bind({}, "XF86AudioLowerVolume", oxwm.spawn({ "sh", "-c", "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-" }))
 oxwm.key.bind({}, "XF86AudioMute", oxwm.spawn({ "sh", "-c", "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle" }))
 -- Terminal & Utilities
-oxwm.key.bind({ modkey }, "B", oxwm.spawn({ "helium-browser" }))
+oxwm.key.bind({ modkey }, "B", oxwm.spawn({ "firefox" }))
 oxwm.key.bind({ modkey }, "F", oxwm.spawn({ "sh", "-c", "kitty --name yazi_term -e yazi" }))
 -- Dolphin (Super + Shift + f)
 oxwm.key.bind({ modkey, "Shift" }, "E", oxwm.spawn({ "dolphin" }))
 -- Media & System Apps (Your specific rmpc/cava terms)
 oxwm.key.bind({ modkey }, "M", oxwm.spawn({ "sh", "-c", "kitty --name rmpc_term -e rmpc" }))
 oxwm.key.bind({ modkey }, "C", oxwm.spawn({ "sh", "-c", "kitty --name cava_term -e cava" }))
-oxwm.key.bind({ modkey }, "Z", oxwm.spawn({ "sh", "-c", "kitty --name nvim_term -e nvim" }))
+oxwm.key.bind({ modkey }, "E", oxwm.spawn({ "sh", "-c", "kitty --name nvim_term -e nvim" }))
+oxwm.key.bind({ modkey }, "Z", oxwm.spawn({ "zeditor" }))
 -- Docker / Suwayomi
 oxwm.key.bind({ modkey }, "X", oxwm.spawn({ "/home/shadow/docker/suwayomi/start-suwayomi-latest.sh" }))
 oxwm.key.bind({ modkey, "Shift" }, "X", oxwm.spawn({ "/home/shadow/docker/suwayomi/stop-suwayomi.sh" }))
