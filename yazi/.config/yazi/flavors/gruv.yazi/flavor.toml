@@ -1,0 +1,108 @@
+# : Manager {{{
+
+[mgr]
+cwd = { fg = "#bbb49d" } # Vintage Bone (High contrast for current path)
+
+# Find
+find_keyword  = { fg = "#bbb49d", bold = true, italic = true, underline = true } 
+find_position = { fg = "#85867a", bg = "reset", bold = true, italic = true } # Aged Parchment
+
+# Marker
+marker_copied   = { fg = "#636862", bg = "#636862" } # Muted Iron
+marker_cut      = { fg = "#49504f", bg = "#85867a" } # Steel Shadow / Aged Parchment
+marker_marked   = { fg = "#85867a", bg = "#293134" } # Aged Parchment / Deep Abyss
+marker_selected = { fg = "#85867a", bg = "#85867a" }
+
+# Count
+count_copied   = { fg = "#293134", bg = "#636862" }
+count_cut      = { fg = "#293134", bg = "#85867a" }
+count_selected = { fg = "#293134", bg = "#85867a" }
+
+# Border
+border_symbol = "│"
+border_style  = { fg = "#49504f" } # Steel Shadow
+
+# : }}}
+
+# : Tabs & Mode {{{
+
+[tabs]
+active   = { fg = "#293134", bg = "#bbb49d", bold = true } # Deep Abyss on Bone
+inactive = { fg = "#636862", bg = "#293134" } # Iron on Abyss
+
+[mode]
+normal_main = { fg = "#293134", bg = "#bbb49d", bold = true }
+normal_alt  = { fg = "#bbb49d", bg = "#293134" }
+select_main = { fg = "#293134", bg = "#85867a", bold = true }
+select_alt  = { fg = "#85867a", bg = "#293134" }
+unset_main  = { fg = "#293134", bg = "#636862", bold = true }
+unset_alt   = { fg = "#636862", bg = "#293134" }
+
+# : }}}
+
+# : Status bar {{{
+
+[status]
+overall = { fg = "#85867a" }
+sep_left  = { open = "", close = "" }
+sep_right = { open = "", close = "" }
+progress_label  = { fg = "#293134", bold = true }
+progress_normal = { fg = "#bbb49d", bg = "#49504f" }
+progress_error  = { fg = "#636862", bg = "#293134" }
+perm_sep   = { fg = "#49504f" }
+perm_type  = { fg = "#bbb49d" }
+perm_read  = { fg = "#85867a" }
+perm_write = { fg = "#636862" }
+perm_exec  = { fg = "#49504f" }
+
+# : }}}
+
+# : Icons {{{
+
+[icon]
+prepend_rules = [
+    { name = ".config/",   text = "", fg = "#85867a" },
+    { name = "Downloads/", text = "󰉍", fg = "#85867a" },
+    { name = "Pictures/",  text = "󰉏", fg = "#85867a" },
+    { name = ".gitconfig", text = "󰊢", fg = "#636862" },
+    { name = "*.sh",       text = "󱆃", fg = "#bbb49d" },
+]
+
+prepend_globs = [
+    { url = "*/", text = "", fg = "#85867a" },
+]
+
+# : }}}
+
+# : File-specific styles {{{
+[filetype]
+rules = [
+    # 1. Directories
+    { url = "*/", fg = "#85867a", bold = true }, 
+
+    # 2. Executables
+    { mime = "application/*exec*", fg = "#bbb49d", bold = true },
+
+    # 3. Media
+    { mime = "image/*", fg = "#bbb49d" },
+    { mime = "video/*", fg = "#636862" },
+    { mime = "audio/*", fg = "#636862" },
+
+    # 4. Archives
+    { mime = "application/zip",             fg = "#49504f" },
+    { mime = "application/x-tar",            fg = "#49504f" },
+    { mime = "application/x-7z-compressed", fg = "#49504f" },
+
+    # 5. Documents & Configuration
+    { mime = "text/*", fg = "#85867a" },
+    { mime = "application/json", fg = "#85867a" },
+    { mime = "application/pdf",  fg = "#636862" },
+
+    # 6. Special
+    { mime = "*", is = "orphan", fg = "#293134", bg = "#636862" },
+    { mime = "*", is = "link",   fg = "#bbb49d", italic = true },
+
+    # 7. Global Fallback
+    { url = "*", fg = "#85867a" },
+]
+# : }}}
