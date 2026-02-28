@@ -11,7 +11,7 @@ static const unsigned int gappov    = 5;        /* vert outer gap between window
 static const int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "JetBrainsMono Nerd Font Mono:size=10" };
+static const char *fonts[]          = { "JetBrainsMono Nerd Font Mono:size=11" };
 static const char dmenufont[]       = "monospace:size=10";
 
 /* Theme: Eldritch Newsprint (High Contrast Edit) */
@@ -109,10 +109,10 @@ static const Key keys[] = {
     { MODKEY,                       XK_b,      spawn,          {.v = browser } },
     { MODKEY,                       XK_f,      spawn,          {.v = yazicmd } },
     { MODKEY|ShiftMask,             XK_e,      spawn,          {.v = dolphin } },
-    { MODKEY,                       XK_z,      spawn,          {.v = zed } },
+    { MODKEY,                       XK_e,      spawn,          {.v = zed } },
     { MODKEY,                       XK_m,      spawn,          {.v = rmpccmd } },
     { MODKEY,                       XK_c,      spawn,          {.v = cavacmd } },
-    { MODKEY,                       XK_e,      spawn,          {.v = nvimcmd } },
+    { MODKEY,                       XK_z,      spawn,          {.v = nvimcmd } },
     { MODKEY,                       XK_x,      spawn,          {.v = suwa_start } },
     { MODKEY|ShiftMask,             XK_x,      spawn,          {.v = suwa_stop } },
     { MODKEY,                       XK_F5,     spawn,          SHCMD("redshift -O 3500") },
