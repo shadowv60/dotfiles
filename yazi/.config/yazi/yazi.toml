@@ -7,8 +7,8 @@ edit = [
     { run = 'nvim %s', block = true, desc = "Neovim", for = "unix" }
 ]
 
-helium-browser = [
-     { run = 'helium-browser %s', orphan = true, desc = "helium-browser", for = "unix" }
+firefox = [
+     { run = 'firefox %s', orphan = true, desc = "firefox", for = "unix" }
 ]
 
 [open]
@@ -27,5 +27,5 @@ prepend_rules = [
     { mime = "video/*", use = "play" },
 
     # 4. Everything else to Librewolf
-    { mime = "*", use = "helium-browser" }
+    { mime = "*", use = "firefox" }
 ]
