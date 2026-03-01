@@ -72,6 +72,8 @@ static const char *cavacmd[]     = { "kitty", "--name", "cava_term", "-e", "cava
 static const char *nvimcmd[]     = { "kitty", "--name", "nvim_term", "-e", "nvim", NULL };
 static const char *suwa_start[]  = { "/home/shadow/docker/suwayomi/start-suwayomi-latest.sh", NULL };
 static const char *suwa_stop[]   = { "/home/shadow/docker/suwayomi/stop-suwayomi.sh", NULL };
+static const char *rofifinder[] = { "/home/shadow/.local/bin/scripts/rofifinder.sh", NULL };
+static const char *powermenucmd[] = { "/home/shadow/.local/bin/scripts/power.sh", NULL };
 
 /* key definitions */
 #define MODKEY Mod4Mask
@@ -97,7 +99,9 @@ static const Key keys[] = {
     { MODKEY,                       XK_d,      spawn,          {.v = roficmd } },    
     { MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
     { MODKEY,                       XK_r,      togglebar,      {0} },
+    { MODKEY|ShiftMask,             XK_p,      spawn,          {.v = powermenucmd } },
     { MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
+    { MODKEY|ShiftMask,             XK_d,      spawn,          {.v = rofifinder } },
     { MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
     { MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
     { MODKEY,                       XK_u,      incnmaster,     {.i = -1 } },
