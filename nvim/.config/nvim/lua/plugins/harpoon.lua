@@ -6,16 +6,16 @@ return {
     local harpoon = require("harpoon")
     harpoon:setup()
 
-    -- Basic Harpoon UI Mappings
+    -- Direct Leader Mappings
     vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end, { desc = "Harpoon: Add file" })
-    vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+    vim.keymap.set("n", "<leader>e", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, { desc = "Harpoon: Quick Menu" })
     
     -- Navigation
-    vim.keymap.set("n", "<C-p>", function() harpoon:list():prev() end)
-    vim.keymap.set("n", "<C-n>", function() harpoon:list():next() end)
+    vim.keymap.set("n", "<leader>p", function() harpoon:list():prev() end, { desc = "Harpoon: Previous" })
+    vim.keymap.set("n", "<leader>n", function() harpoon:list():next() end, { desc = "Harpoon: Next" })
 
-    -- Telescope Integration (The "Working List")
-    vim.keymap.set("n", "<leader>fl", function()
+    -- Telescope Integration (Working List)
+    vim.keymap.set("n", "<leader>l", function()
         local conf = require("telescope.config").values
         local themes = require("telescope.themes")
         
@@ -32,7 +32,6 @@ return {
             }),
             previewer = conf.file_previewer({}),
             sorter = conf.generic_sorter({}),
-            -- This attachment ensures that pressing <Enter> actually opens the file
             attach_mappings = function(prompt_bufnr, map)
                 local actions = require("telescope.actions")
                 local action_state = require("telescope.actions.state")
@@ -40,7 +39,9 @@ return {
                 actions.select_default:replace(function()
                     local selection = action_state.get_selected_entry()
                     actions.close(prompt_bufnr)
-                    vim.cmd("edit " .. selection[1])
+                    if selection then
+                        vim.cmd("edit " .. selection[1])
+                    end
                 end)
                 return true
             end,

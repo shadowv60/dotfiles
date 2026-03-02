@@ -29,6 +29,11 @@ static char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 /* logging */
 static int log_level = WLR_ERROR;
 
+/* Autostart */
+static const char *const autostart[] = {
+    "swaybg", "-i", "/home/shadow/walls/hell.png", "-m", "fill", NULL,
+    NULL /* terminate */
+};
 static const Rule rules[] = {
 	/* app_id             title       tags mask     isfloating   monitor */
 	{ "Gimp_EXAMPLE",     NULL,       0,            1,           -1 }, /* Start on currently visible tags floating, not tiled */
@@ -124,7 +129,7 @@ static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TA
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 /* Apps */
 static const char *roficmd[]      = { "rofi", "-show", "drun", NULL };
-static const char *browser[]      = { "firefox", NULL };
+static const char *browser[]      = { "zen-browser", NULL };
 static const char *zed[]          = { "zeditor", NULL };
 static const char *dolphin[]      = { "dolphin", NULL };
 static const char *yazicmd[]      = { "kitty", "--name", "yazi_term", "-e", "yazi", NULL };
@@ -149,7 +154,7 @@ static const char *menucmd[] = { "wmenu-run", NULL };
 static const Key keys[] = {
 	/* Note that Shift changes certain key codes: 2 -> at, etc. */
 	/* modifier                  key                  function          argument */
-	{ MODKEY,                    XKB_KEY_p,          spawn,            {.v = menucmd} },
+	{ MODKEY,                    XKB_KEY_w,          spawn,            {.v = menucmd} },
         { MODKEY,                    XKB_KEY_d,          spawn,          {.v = roficmd} },
         { MODKEY,                    XKB_KEY_F5,         spawn, SHCMD("wlsunset -t 3500") },
         { MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_F5,         spawn, SHCMD("pkill wlsunset") },
@@ -187,7 +192,7 @@ static const Key keys[] = {
 	{ MODKEY,                    XKB_KEY_m,           setlayout,        {.v = &layouts[2]} },
 	{ MODKEY,                    XKB_KEY_space,       setlayout,        {0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_space,       togglefloating,   {0} },
-	{ MODKEY,                    XKB_KEY_e,           togglefullscreen, {0} },
+	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_f,           togglefullscreen, {0} },
 	{ MODKEY,                    XKB_KEY_0,           view,             {.ui = ~0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_parenright,  tag,              {.ui = ~0} },
 	{ MODKEY,                    XKB_KEY_comma,       focusmon,         {.i = WLR_DIRECTION_LEFT} },

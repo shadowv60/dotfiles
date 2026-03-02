@@ -273,6 +273,7 @@ static void arrange(Monitor *m);
 static void arrangelayer(Monitor *m, struct wl_list *list,
 		struct wlr_box *usable_area, int exclusive);
 static void arrangelayers(Monitor *m);
+static void autostartexec(void);
 static void axisnotify(struct wl_listener *listener, void *data);
 static bool baracceptsinput(struct wlr_scene_buffer *buffer, double *sx, double *sy);
 static void bufdestroy(struct wlr_buffer *buffer);
@@ -497,6 +498,9 @@ static struct wl_listener xwayland_ready = {.notify = xwaylandready};
 static struct wlr_xwayland *xwayland;
 #endif
 
+static pid_t *autostart_pids;
+static size_t autostart_len;
+
 /* configuration, allows nested code to access above variables */
 #include "config.h"
 
@@ -565,9 +569,6 @@ arrange(Monitor *m)
 			client_set_suspended(c, !VISIBLEON(c, m));
 		}
 	}
-
-	wlr_scene_node_set_enabled(&m->fullscreen_bg->node,
-			(c = focustop(m)) && c->isfullscreen);
 
 	strncpy(m->ltsymbol, m->lt[m->sellt]->symbol, sizeof(m->ltsymbol));
 
@@ -653,6 +654,27 @@ arrangelayers(Monitor *m)
 			client_notify_enter(l->layer_surface->surface, wlr_seat_get_keyboard(seat));
 			return;
 		}
+	}
+}
+
+void
+autostartexec(void) {
+	const char *const *p;
+	size_t i = 0;
+
+	/* count entries */
+	for (p = autostart; *p; autostart_len++, p++)
+		while (*++p);
+
+	autostart_pids = calloc(autostart_len, sizeof(pid_t));
+	for (p = autostart; *p; i++, p++) {
+		if ((autostart_pids[i] = fork()) == 0) {
+			setsid();
+			execvp(*p, (char *const *)p);
+			die("dwl: execvp %s:", *p);
+		}
+		/* skip arguments */
+		while (*++p);
 	}
 }
 
@@ -748,7 +770,7 @@ bufrelease(struct wl_listener *listener, void *data)
 void
 buttonpress(struct wl_listener *listener, void *data)
 {
-	unsigned int i = 0, x = 0;
+	unsigned int i = 0, x = 0, occ = 0;
 	double cx;
 	unsigned int click;
 	struct wlr_pointer_button_event *event = data;
@@ -778,9 +800,16 @@ buttonpress(struct wl_listener *listener, void *data)
 			(node = wlr_scene_node_at(&layers[LyrBottom]->node, cursor->x, cursor->y, NULL, NULL)) &&
 			(buffer = wlr_scene_buffer_from_node(node)) && buffer == selmon->scene_buffer) {
 			cx = (cursor->x - selmon->m.x) * selmon->wlr_output->scale;
-			do
+			wl_list_for_each(c, &clients, link) {
+				if (c->mon != selmon)
+					continue;
+				occ |= c->tags == TAGMASK ? 0 : c->tags;
+			}
+			do {
+				if (!(occ & 1 << i || selmon->tagset[selmon->seltags] & 1 << i))
+					continue;
 				x += TEXTW(selmon, tags[i]);
-			while (cx >= x && ++i < LENGTH(tags));
+			} while (cx >= x && ++i < LENGTH(tags));
 			if (i < LENGTH(tags)) {
 				click = ClkTagBar;
 				arg.ui = 1 << i;
@@ -854,12 +883,23 @@ checkidleinhibitor(struct wlr_surface *exclude)
 void
 cleanup(void)
 {
+	size_t i;
+
 	cleanuplisteners();
 #ifdef XWAYLAND
 	wlr_xwayland_destroy(xwayland);
 	xwayland = NULL;
 #endif
 	wl_display_destroy_clients(dpy);
+
+	/* kill child processes */
+	for (i = 0; i < autostart_len; i++) {
+		if (0 < autostart_pids[i]) {
+			kill(autostart_pids[i], SIGTERM);
+			waitpid(autostart_pids[i], NULL, 0);
+		}
+	}
+
 	if (child_pid > 0) {
 		kill(-child_pid, SIGTERM);
 		waitpid(child_pid, NULL, 0);
@@ -1042,7 +1082,7 @@ commitnotify(struct wl_listener *listener, void *data)
 		return;
 	}
 
-	resize(c, c->geom, (c->isfloating && !c->isfullscreen));
+	resize(c, c->geom, (c->isfloating));
 
 	/* mark a pending resize as completed */
 	if (c->resize && c->resize <= c->surface.xdg->current.configure_serial)
@@ -1597,20 +1637,18 @@ drawbar(Monitor *m)
 	wl_list_for_each(c, &clients, link) {
 		if (c->mon != m)
 			continue;
-		occ |= c->tags;
+		occ |= c->tags == TAGMASK ? 0 : c->tags;
 		if (c->isurgent)
 			urg |= c->tags;
 	}
 	x = 0;
 	c = focustop(m);
 	for (i = 0; i < LENGTH(tags); i++) {
+		if(!(occ & 1 << i || m->tagset[m->seltags] & 1 << i))
+			continue;
 		w = TEXTW(m, tags[i]);
 		drwl_setscheme(m->drw, colors[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
 		drwl_text(m->drw, x, 0, w, m->b.height, m->lrpad / 2, tags[i], urg & 1 << i);
-		if (occ & 1 << i)
-			drwl_rect(m->drw, x + boxs, boxs, boxw, boxw,
-				m == selmon && c && c->tags & 1 << i,
-				urg & 1 << i);
 		x += w;
 	}
 	w = TEXTW(m, m->ltsymbol);
@@ -1736,7 +1774,7 @@ focusstack(const Arg *arg)
 {
 	/* Focus the next or previous client (in tiling order) on selmon */
 	Client *c, *sel = focustop(selmon);
-	if (!sel || (sel->isfullscreen && !client_has_children(sel)))
+	if (!sel)
 		return;
 	if (arg->i > 0) {
 		wl_list_for_each(c, &sel->link, link) {
@@ -1806,10 +1844,25 @@ gpureset(struct wl_listener *listener, void *data)
 void
 handlesig(int signo)
 {
-	if (signo == SIGCHLD)
-		while (waitpid(-1, NULL, WNOHANG) > 0);
-	else if (signo == SIGINT || signo == SIGTERM)
+	if (signo == SIGCHLD) {
+		pid_t pid, *p, *lim;
+		while ((pid = waitpid(-1, NULL, WNOHANG)) > 0) {
+			if (pid == child_pid)
+				child_pid = -1;
+			if (!(p = autostart_pids))
+				continue;
+			lim = &p[autostart_len];
+
+			for (; p < lim; p++) {
+				if (*p == pid) {
+					*p = -1;
+					break;
+				}
+			}
+		}
+	} else if (signo == SIGINT || signo == SIGTERM) {
 		quit(NULL);
+	}
 }
 
 void
@@ -2077,7 +2130,7 @@ monocle(Monitor *m)
 	int n = 0;
 
 	wl_list_for_each(c, &clients, link) {
-		if (!VISIBLEON(c, m) || c->isfloating || c->isfullscreen)
+		if (!VISIBLEON(c, m) || c->isfloating)
 			continue;
 		resize(c, m->w, 0);
 		n++;
@@ -2208,7 +2261,7 @@ moveresize(const Arg *arg)
 	if (cursor_mode != CurNormal && cursor_mode != CurPressed)
 		return;
 	xytonode(cursor->x, cursor->y, NULL, &grabc, NULL, NULL, NULL);
-	if (!grabc || client_is_unmanaged(grabc) || grabc->isfullscreen)
+	if (!grabc || client_is_unmanaged(grabc))
 		return;
 
 	/* Float the window and tell motionnotify to grab it */
@@ -2462,6 +2515,7 @@ run(char *startup_cmd)
 		die("startup: backend_start");
 
 	/* Now that the socket exists and the backend is started, run the startup command */
+	autostartexec();
 	if (startup_cmd) {
 		if ((child_pid = fork()) < 0)
 			die("startup: fork:");
@@ -2537,14 +2591,12 @@ setcursorshape(struct wl_listener *listener, void *data)
 void
 setfloating(Client *c, int floating)
 {
-	Client *p = client_get_parent(c);
 	c->isfloating = floating;
 	/* If in floating layout do not change the client's layer */
 	if (!c->mon || !client_surface(c)->mapped || !c->mon->lt[c->mon->sellt]->arrange)
 		return;
-	wlr_scene_node_reparent(&c->scene->node, layers[c->isfullscreen ||
-			(p && p->isfullscreen) ? LyrFS
-			: c->isfloating ? LyrFloat : LyrTile]);
+	wlr_scene_node_reparent(&c->scene->node,
+		layers[c->isfloating ? LyrFloat : LyrTile]);
 	arrange(c->mon);
 	drawbars();
 }
@@ -2557,12 +2609,12 @@ setfullscreen(Client *c, int fullscreen)
 		return;
 	c->bw = fullscreen ? 0 : borderpx;
 	client_set_fullscreen(c, fullscreen);
-	wlr_scene_node_reparent(&c->scene->node, layers[c->isfullscreen
-			? LyrFS : c->isfloating ? LyrFloat : LyrTile]);
 
+	wlr_scene_node_reparent(&c->scene->node,
+		layers[c->isfloating ? LyrFloat : LyrTile]);
 	if (fullscreen) {
 		c->prev = c->geom;
-		resize(c, c->mon->m, 0);
+		resize(c, c->mon->w, 0);
 	} else {
 		/* restore previous size instead of arrange for floating windows since
 		 * client positions are set by the user and cannot be recalculated */
@@ -2954,7 +3006,7 @@ tile(Monitor *m)
 	Client *c;
 
 	wl_list_for_each(c, &clients, link)
-		if (VISIBLEON(c, m) && !c->isfloating && !c->isfullscreen)
+		if (VISIBLEON(c, m) && !c->isfloating)
 			n++;
 	if (n == 0)
 		return;
@@ -2968,7 +3020,7 @@ tile(Monitor *m)
 	i = 0;
 	my = ty = gappx*e;
 	wl_list_for_each(c, &clients, link) {
-		if (!VISIBLEON(c, m) || c->isfloating || c->isfullscreen)
+		if (!VISIBLEON(c, m) || c->isfloating)
 			continue;
 		if (i < m->nmaster) {
 			r = MIN(n, m->nmaster) - i;
@@ -3001,7 +3053,7 @@ togglefloating(const Arg *arg)
 {
 	Client *sel = focustop(selmon);
 	/* return if fullscreen */
-	if (sel && !sel->isfullscreen)
+	if (sel)
 		setfloating(sel, !sel->isfloating);
 }
 
@@ -3163,9 +3215,6 @@ updatemons(struct wl_listener *listener, void *data)
 		arrangelayers(m);
 		/* Don't move clients to the left output when plugging monitors */
 		arrange(m);
-		/* make sure fullscreen clients have the right size */
-		if ((c = focustop(m)) && c->isfullscreen)
-			resize(c, m->m, 0);
 
 		/* Try to re-set the gamma LUT when updating monitors,
 		 * it's only really needed when enabling a disabled output, but meh. */

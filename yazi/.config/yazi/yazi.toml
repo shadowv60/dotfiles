@@ -7,8 +7,8 @@ edit = [
     { run = 'nvim %s', block = true, desc = "Neovim", for = "unix" }
 ]
 
-firefox = [
-     { run = 'firefox %s', orphan = true, desc = "firefox", for = "unix" }
+zen-browser = [
+     { run = 'zen-browser %s', orphan = true, desc = "zen-browser", for = "unix" }
 ]
 
 [open]
@@ -27,5 +27,5 @@ prepend_rules = [
     { mime = "video/*", use = "play" },
 
     # 4. Everything else to Librewolf
-    { mime = "*", use = "firefox" }
+    { mime = "*", use = "zen-browser" }
 ]

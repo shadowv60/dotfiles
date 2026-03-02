@@ -6,20 +6,23 @@
 /* appearance */
 static const int sloppyfocus               = 1;  /* focus follows mouse */
 static const int bypass_surface_visibility = 0;  /* 1 means idle inhibitors will disable idle tracking even if it's surface isn't visible  */
-static const unsigned int borderpx         = 1;  /* border pixel of windows */
+static const int smartgaps                 = 0;  /* 1 means no outer gap when there is only one window */
+static int gaps                            = 1;  /* 1 means gaps between windows are added */
+static const unsigned int gappx            = 5; /* gap pixel between windows */
+static const unsigned int borderpx         = 2;  /* border pixel of windows */
 static const int showbar                   = 1; /* 0 means no bar */
 static const int topbar                    = 1; /* 0 means bottom bar */
-static const char *fonts[]                 = {"monospace:size=10"};
-static const float rootcolor[]             = COLOR(0x000000ff);
-/* This conforms to the xdg-protocol. Set the alpha to zero to restore the old behavior */
-static const float fullscreen_bg[]         = {0.0f, 0.0f, 0.0f, 1.0f}; /* You can also use glsl colors */
-static uint32_t colors[][3]                = {
-	/*               fg          bg          border    */
-	[SchemeNorm] = { 0xbbbbbbff, 0x222222ff, 0x444444ff },
-	[SchemeSel]  = { 0xeeeeeeff, 0x005577ff, 0x005577ff },
-	[SchemeUrg]  = { 0,          0,          0x770000ff },
-};
+static const char *fonts[]                 = {"JetBrainsMono Nerd Font Mono:size=11"} ;
+/* Theme: Eldritch Newsprint (High Contrast Edit) */
+static const float rootcolor[]           = COLOR(0x1e2224ff); // Deeper Abyss
+static const float fullscreen_bg[]       = {0.117f, 0.133f, 0.141f, 1.0f}; // Matches col_bg
 
+static uint32_t colors[][3] = {
+    /* fg          bg          border    */
+    [SchemeNorm] = { 0xbbb49dff, 0x1e2224ff, 0x49504fff }, // Vintage Bone, Abyss, Steel Shadow
+    [SchemeSel]  = { 0xece6d9ff, 0x1e2224ff, 0xbbb49dff }, // Bleached Bone, Abyss, Vintage Bone
+    [SchemeUrg]  = { 0x1e2224ff, 0xbbb49dff, 0xbbb49dff },
+};
 /* tagging */
 static char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
@@ -119,6 +122,25 @@ static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TA
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
+/* Apps */
+static const char *roficmd[]      = { "rofi", "-show", "drun", NULL };
+static const char *browser[]      = { "firefox", NULL };
+static const char *zed[]          = { "zeditor", NULL };
+static const char *dolphin[]      = { "dolphin", NULL };
+static const char *yazicmd[]      = { "kitty", "--name", "yazi_term", "-e", "yazi", NULL };
+static const char *rmpccmd[]      = { "kitty", "--name", "rmpc_term", "-e", "rmpc", NULL };
+static const char *cavacmd[]      = { "kitty", "--name", "cava_term", "-e", "cava", NULL };
+static const char *nvimcmd[]      = { "kitty", "--name", "nvim_term", "-e", "nvim", NULL };
+static const char *suwa_start[]   = { "/home/shadow/docker/suwayomi/start-suwayomi-latest.sh", NULL };
+static const char *suwa_stop[]    = { "/home/shadow/docker/suwayomi/stop-suwayomi.sh", NULL };
+static const char *rofifinder[]   = { "/home/shadow/.local/bin/scripts/rofifinder.sh", NULL };
+static const char *powermenucmd[] = { "/home/shadow/.local/bin/scripts/power.sh", NULL };
+
+/* Volume & Audio (Pipewire) */
+static const char *volup[]     = { "wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", "5%+", NULL };
+static const char *voldown[]   = { "wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", "5%-", NULL };
+static const char *volmute[]   = { "wpctl", "set-mute", "@DEFAULT_AUDIO_SINK@", "toggle", NULL };
+static const char *playpause[] = { "playerctl", "play-pause", NULL };
 
 /* commands */
 static const char *termcmd[] = { "kitty", NULL };
@@ -127,9 +149,30 @@ static const char *menucmd[] = { "wmenu-run", NULL };
 static const Key keys[] = {
 	/* Note that Shift changes certain key codes: 2 -> at, etc. */
 	/* modifier                  key                  function          argument */
-	{ MODKEY,                    XKB_KEY_p,           spawn,            {.v = menucmd} },
+	{ MODKEY,                    XKB_KEY_w,          spawn,            {.v = menucmd} },
+        { MODKEY,                    XKB_KEY_d,          spawn,          {.v = roficmd} },
+        { MODKEY,                    XKB_KEY_F5,         spawn, SHCMD("wlsunset -t 3500") },
+        { MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_F5,         spawn, SHCMD("pkill wlsunset") },
+        { MODKEY,                    XKB_KEY_Return,     spawn,          {.v = termcmd} },
+        { MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_P,          spawn,          {.v = powermenucmd} },
+        { MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_D,          spawn,          {.v = rofifinder} },
+        { MODKEY,                    XKB_KEY_b,          spawn,          {.v = browser} },
+        { MODKEY,                    XKB_KEY_f,          spawn,          {.v = yazicmd} },
+        { MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_E,          spawn,          {.v = dolphin} },
+        { MODKEY,                    XKB_KEY_e,          spawn,          {.v = zed} },
+        { MODKEY,                    XKB_KEY_m,          spawn,          {.v = rmpccmd} },
+        { MODKEY,                    XKB_KEY_c,          spawn,          {.v = cavacmd} },
+        { MODKEY,                    XKB_KEY_z,          spawn,          {.v = nvimcmd} },
+        { MODKEY,                    XKB_KEY_x,          spawn,          {.v = suwa_start} },
+        { MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_X,          spawn,          {.v = suwa_stop} },
+        { 0,                         XKB_KEY_XF86AudioRaiseVolume, spawn, {.v = volup} },
+        { 0,                         XKB_KEY_XF86AudioLowerVolume, spawn, {.v = voldown} },
+        { 0,                         XKB_KEY_XF86AudioMute,        spawn, {.v = volmute} },
+        { MODKEY,                    XKB_KEY_p,                    spawn, {.v = playpause} },
 	{ MODKEY,                    XKB_KEY_Return,      spawn,            {.v = termcmd} },
+        { MODKEY, XKB_KEY_s, spawn, SHCMD("grim ~/Pictures/$(date +%Y-%m-%d-%H%M%S)_screenshot.png") },
 	{ MODKEY,                    XKB_KEY_b,           togglebar,        {0} },
+	{ MODKEY,                    XKB_KEY_g,          togglegaps,     {0} },
 	{ MODKEY,                    XKB_KEY_j,           focusstack,       {.i = +1} },
 	{ MODKEY,                    XKB_KEY_k,           focusstack,       {.i = -1} },
 	{ MODKEY,                    XKB_KEY_i,           incnmaster,       {.i = +1} },
