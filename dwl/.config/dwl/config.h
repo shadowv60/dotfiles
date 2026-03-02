@@ -132,10 +132,10 @@ static const char *roficmd[]      = { "rofi", "-show", "drun", NULL };
 static const char *browser[]      = { "zen-browser", NULL };
 static const char *zed[]          = { "zeditor", NULL };
 static const char *dolphin[]      = { "dolphin", NULL };
-static const char *yazicmd[]      = { "kitty", "--name", "yazi_term", "-e", "yazi", NULL };
-static const char *rmpccmd[]      = { "kitty", "--name", "rmpc_term", "-e", "rmpc", NULL };
-static const char *cavacmd[]      = { "kitty", "--name", "cava_term", "-e", "cava", NULL };
-static const char *nvimcmd[]      = { "kitty", "--name", "nvim_term", "-e", "nvim", NULL };
+static const char *yazicmd[]  = { "foot", "-e", "sh", "-c", "yazi", NULL };
+static const char *rmpccmd[]  = { "foot", "-e", "sh", "-c", "rmpc", NULL };
+static const char *cavacmd[]  = { "foot", "-e", "sh", "-c", "cava", NULL };
+static const char *nvimcmd[]  = { "foot", "-e", "sh", "-c", "nvim", NULL };
 static const char *suwa_start[]   = { "/home/shadow/docker/suwayomi/start-suwayomi-latest.sh", NULL };
 static const char *suwa_stop[]    = { "/home/shadow/docker/suwayomi/stop-suwayomi.sh", NULL };
 static const char *rofifinder[]   = { "/home/shadow/.local/bin/scripts/rofifinder.sh", NULL };
@@ -148,7 +148,7 @@ static const char *volmute[]   = { "wpctl", "set-mute", "@DEFAULT_AUDIO_SINK@", 
 static const char *playpause[] = { "playerctl", "play-pause", NULL };
 
 /* commands */
-static const char *termcmd[] = { "kitty", NULL };
+static const char *termcmd[] = { "foot", NULL };
 static const char *menucmd[] = { "wmenu-run", NULL };
 
 static const Key keys[] = {
