@@ -4,7 +4,7 @@ require('config.lazy')
 
 -- Configure Gruvbox BEFORE setting the colorscheme
 require("gruvbox").setup({
-    transparent_mode = true,
+    -- transparent_mode = true,
 })
 
 vim.o.background = "dark"
