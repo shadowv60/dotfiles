@@ -35,14 +35,14 @@ return {
       [[⠀⠉⠙⠛⠛⠛⠛⠛⠻⠿⠿⠿⠷⠶⠶⢶⣶⣶⣶⣶⣤⣤⣤⣤⣤⣥⣬⣭⣭⣉⣩⣍⣙⣏⣉⣏⣽⣶⣶⣶⣤⣤⣬⣤⣤⣾⣿⠶⠾⠿⠿⠿⠿⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠃]],
     }
 
-    dashboard.section.buttons.val = {
+      dashboard.section.buttons.val = {
       dashboard.button("f", "󰈞  Find file", ":Telescope find_files <CR>"),
       dashboard.button("n", "  New file", ":ene <BAR> startinsert <CR>"),
+      dashboard.button("s", "󰁯  Restore Session", [[<cmd>lua require("persistence").load()<cr>]]), -- Added this
       dashboard.button("p", "󰄉  Projects", ":Telescope projects <CR>"),
       dashboard.button("r", "󰄉  Recent", ":Telescope oldfiles <CR>"),
       dashboard.button("q", "󰅚  Quit", ":qa<CR>"),
-    }
-
+    }  
     require("alpha").setup(dashboard.opts)
   end,
 }

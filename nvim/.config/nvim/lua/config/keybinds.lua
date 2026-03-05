@@ -39,3 +39,8 @@ vim.keymap.set("n", "<leader>tc", "<cmd>bdelete!<CR>", { desc = "Kill terminal b
     vim.cmd("term")       -- Turn it into a terminal
     vim.cmd("startinsert") -- Go straight into typing mode
 end, { desc = "Terminal as full buffer" })
+-- LSP Mappings
+vim.keymap.set('n', 'K', vim.lsp.buf.hover, { desc = 'LSP Hover Documentation' })
+vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = 'LSP Go to Definition' })
+vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { desc = 'LSP Code Action (Fix Error)' })
+vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { desc = 'LSP Rename Variable' })

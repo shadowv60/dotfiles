@@ -12,7 +12,7 @@ static const unsigned int gappx            = 5; /* gap pixel between windows */
 static const unsigned int borderpx         = 2;  /* border pixel of windows */
 static const int showbar                   = 1; /* 0 means no bar */
 static const int topbar                    = 1; /* 0 means bottom bar */
-static const char *fonts[]                 = {"JetBrainsMono Nerd Font Mono:size=11"} ;
+static const char *fonts[]                 = {"JetBrainsMono Nerd Font Mono:size=11"}; 
 /* Theme: Eldritch Newsprint (High Contrast Edit) */
 static const float rootcolor[]           = COLOR(0x1e2224ff); // Deeper Abyss
 static const float fullscreen_bg[]       = {0.117f, 0.133f, 0.141f, 1.0f}; // Matches col_bg
